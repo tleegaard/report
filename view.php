@@ -157,7 +157,7 @@
   var settings = report.getsettings();
 
   // If the histogram feed is not specified then use defaults
-  if (!settings.histogramFeed) {
+  if (!settings) {
     settings = {
       histogramFeed: 0,
       thresholdA:1000,
