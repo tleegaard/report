@@ -71,6 +71,9 @@
         </div>
 
       </div>
+
+      <div id="stat" style="position:absolute; top:40px; right:30px;">
+      </div>
     </div>
   </div>
 
@@ -153,6 +156,11 @@
   $('#graph').width($('#graph_bound').width());
   $('#graph').height($('#graph_bound').height());
 
+  $(window).resize(function(){
+    $('#graph').width($('#graph_bound').width());
+    redraw();
+  });
+
   // Load settings from database
   var settings = report.getsettings();
 
@@ -191,14 +199,27 @@
   var apikey='',timeWindow,start,end;
 
   var data = [];
-  var dataA = [];
-  var dataB = [];
-  var dataC = [];
-  //var dataD = [];
 
+  var numberOfSeries = 3;
+  var labelcolor = [
+    {label: "Less than 1 kW", color: "#4da74d"},  
+    {label: "1 kW to 3 kW", color: "#edc240"}, 
+    {label: "More than 3 kW", color: "#cb4b4b"}
+  ];
+
+  // Create histogram and piedata from labelcolor descriptor
+  // use eval and JSON.stringify so that the resultant objects are not linked
+  var series = eval(JSON.stringify(labelcolor));
+  var piedata = eval(JSON.stringify(labelcolor));
+
+  // Add bargraph series type to series object
+  for (var s=0; s<numberOfSeries; s++) {
+    series[s].stack = true;
+    series[s].bars = { show: true,align: "center",barWidth: (3600*18*1000),fill: true };
+  }
 
   init();
-  vis_feed_data();
+  redraw();
 
   function init()
   {
@@ -237,167 +258,83 @@
     }
   }
 
-  $(window).resize(function(){
-    $('#graph').width($('#graph_bound').width());
-    //if (embed) $('#graph').height($(window).height());
-    vis_feed_data();
-  });
-
-  function vis_feed_data()
+  function redraw()
   {
+    var sum = [];
 
-    dataA = [];
-    dataB = [];
-    dataC = [];
-    //dataD = [];
-
-    var sum = 0.0; 
-    var sumA = 0, sumB = 0, sumC = 0, sumD = 0;
+    // Init and empty series object
+    for (var s=0; s<numberOfSeries; s++) { 
+      series[s].data = [];
+      sum[s] = 0;
+    }
+ 
+    // Transfer data from single timestamp with multiple plots to seperate series each with their own timestamp.
     var i = 0;
-
-    for (z in data)
-    {
+    for (z in data) {
       var time = data[z][0]*1000;
-      if (time>start && time<end)
-      {
-      dataA[z] = [];
-      dataB[z] = [];
-      dataC[z] = [];
-      //dataD[z] = [];
-
-      dataA[z][0] = time;
-      dataA[z][1] = data[z][1]*unitscale;
-      sum += parseFloat(dataA[z][1]);
-      sumA += parseFloat(dataA[z][1]);
-
-      dataB[z][0] = time;
-      dataB[z][1] = data[z][2]*unitscale;
-      sum += parseFloat(dataB[z][1]);
-      sumB += parseFloat(dataB[z][1]);
-
-      dataC[z][0] = time;
-      dataC[z][1] = data[z][3]*unitscale;
-      sum += parseFloat(dataC[z][1]);
-      sumC += parseFloat(dataC[z][1]);
-
-      //dataD[z][0] = time;
-      //dataD[z][1] = data[z][4];
-      //sum += parseFloat(dataD[z][1]);
-      //sumD += parseFloat(dataD[z][1]);
-      i++;
+      if (time>start && time<end) {
+        for (var s=0; s<numberOfSeries; s++) {
+          series[s].data[i] = [time,data[z][s+1]*unitscale];
+          sum[s] += parseFloat(series[s].data[i][1]);
+        }
+        i++;
       }
     }
 
-    var mean = sum / i;
-
     daysinview = i;
+    var mean = (sum[0] + sum[1] + sum[2]) / daysinview;
+    series[3] = {color: "#999", data:[[start,mean],[end,mean]], lines: { fill: false }};
 
-    var a = ((new Date()).getTime())-(3600000*24.0*period);
-    var b = (new Date()).getTime();
-    var last = useInRange(a, b);
-    $("#last").html("Last "+period+" days: "+prependUnits+(last).toFixed(0)+appendUnits+" | "+prependUnits+(last/i).toFixed(2)+appendUnits+"/day");
-    b = a;
-    var a = ((new Date()).getTime())-(3600000*24.0*period*2);
-    var previous = useInRange(a, b);
-    $("#previous").html("Previous "+period+" days: "+prependUnits+(previous).toFixed(0)+appendUnits+" | "+prependUnits+(previous/i).toFixed(2)+appendUnits+"/day");
-
-    var prc = ((last / previous)*100)-100;
-    $("#prc-change").html(prc.toFixed(0)+"%");
-    if (prc<0) $("#prc-change").css('color',"#4da74d"); else $("#prc-change").css('color',"#cb4b4b");
-
-    var meanline = [[start,mean],[end,mean]];
-
-    $.plot($("#graph"), [
-      {label: "Less than 1 kW", color: "#4da74d", data:dataA ,stack: true, bars: { show: true,align: "center",barWidth: (3600*18*1000),fill: true }},  
-      {label: "1 kW to 3 kW", color: "#edc240", data:dataB ,stack: true, bars: { show: true,align: "center",barWidth: (3600*18*1000),fill: true }}, 
-      {label: "More than 3 kW", color: "#cb4b4b", data:dataC ,stack: true, bars: { show: true,align: "center",barWidth: (3600*18*1000),fill: true }}, 
-      //{color: "", data:dataD ,stack: true, bars: { show: true,align: "center",barWidth: (3600*18*1000),fill: true }}, 
-      {color: "#999", data:meanline, lines: { fill: false }}
-    ], 
-    {
+    // Draw stats block
+    statsblock(daysinview);
+   
+    // Draw main graph
+    $.plot($("#graph"), series, {
       grid: { show: true, hoverable: true, clickable: true },
       xaxis: { mode: "time", localTimezone: true, min: start, max: end, minTickSize: [1, "day"], tickLength: 1 },
       selection: { mode: "xy" },
       legend: { show: true, position: "nw"}
     });
 
-	  var piedata = [];
-
-		piedata[0] = {
-			label: "Less than 1 kW",
-			data: sumA,
-      color: "#4da74d"
-		}
-
-		piedata[1] = {
-			label: "1 kW to 3 kW",
-			data: sumB,
-      color: "#edc240"
-		}
-
-		piedata[2] = {
-			label: "More than 3 kW",
-			data: sumC,
-      color: "#cb4b4b"
-		}
-
-		//piedata[3] = {
-		//	label: "More than 3 kW",
-		//	data: sumD,
-    //  color: "#cb4b4b"
-		//}
-
+    for (var s=0; s<numberOfSeries; s++) piedata[s].data = sum[s];
 
 		$.plot("#pie", piedata, {
 			series: {
 				pie: { 
 					show: true,
           radius: 2/3,
-				  label: {
-            formatter: labelFormatter,
-            //background: { 
-            //    opacity: 0.5,
-            ///    color: '#000'
-            //}
-          },
-          stroke: {
-              width:3,
-          }
+				  label: { formatter: labelFormatter },
+          stroke: { width:3 }
 				}
 			},
-      legend: {
-          show: false
-      },
-
+      legend: { show: false },
       grid: {
           hoverable: true,
           clickable: true
       }
 		});
-  }
+
+  } // end of vis feed data
 
   //--------------------------------------------------------------------------------------
-  // Graph zooming
+  // Stats block functions
   //--------------------------------------------------------------------------------------
-  $("#graph").bind("plotselected", function (event, ranges) 
+  function statsblock(daysinview)   
   {
-     start = ranges.xaxis.from; end = ranges.xaxis.to;
-     vis_feed_data();
-  });
+    var now = ((new Date()).getTime());
+    var a = now-(3600000*24.0*period);
+    var b = now;
+    var last = useInRange(a, b);
+    $("#last").html("Last "+period+" days: "+prependUnits+(last).toFixed(0)+appendUnits+" | "+prependUnits+(last/daysinview).toFixed(2)+appendUnits+"/day");
+    b = a;
+    var a = now-(3600000*24.0*period*2);
+    var previous = useInRange(a, b);
+    $("#previous").html("Previous "+period+" days: "+prependUnits+(previous).toFixed(0)+appendUnits+" | "+prependUnits+(previous/daysinview).toFixed(2)+appendUnits+"/day");
 
-  //----------------------------------------------------------------------------------------------
-  // Operate buttons
-  //----------------------------------------------------------------------------------------------
-  $("#zoomout").click(function () {inst_zoomout(); vis_feed_data();});
-  $("#zoomin").click(function () {inst_zoomin(); vis_feed_data();});
-  $('#right').click(function () {inst_panright(); vis_feed_data();});
-  $('#left').click(function () {inst_panleft(); vis_feed_data();});
-  $('.time').click(function () {period = $(this).attr("time"); inst_timewindow($(this).attr("time")); vis_feed_data();});
-  //-----------------------------------------------------------------------------------------------
-
-	function labelFormatter(label, series) {
-		return "<div style='font-size:11pt; text-align:center; padding:2px; color:#444; width:150px'>" + label+": <b>"+Math.round(series.percent) + "%</b><br/ >" + prependUnits+series.data[0][1].toFixed(0) +appendUnits+" in "+daysinview+" days<br>"+prependUnits+(series.data[0][1]/daysinview).toFixed(2) +appendUnits+"/day</div>";
-	}
+    var prc = ((last / previous)*100)-100;
+    $("#prc-change").html(prc.toFixed(0)+"%");
+    if (prc<0) $("#prc-change").css('color',"#4da74d"); else $("#prc-change").css('color',"#cb4b4b");
+  }
 
   function useInRange(start, end)  
   {
@@ -414,18 +351,77 @@
     return sum;
   }
 
+  //--------------------------------------------------------------------------------------
+  // Histogram daily graph functions
+  //--------------------------------------------------------------------------------------
+
+  // Graph zooming
+  $("#graph").bind("plotselected", function (event, ranges) 
+  {
+     start = ranges.xaxis.from; end = ranges.xaxis.to;
+     redraw();
+  });
+
+  // Operate buttons
+  $("#zoomout").click(function () {inst_zoomout(); redraw();});
+  $("#zoomin").click(function () {inst_zoomin(); redraw();});
+  $('#right').click(function () {inst_panright(); redraw();});
+  $('#left').click(function () {inst_panleft(); redraw();});
+  $('.time').click(function () {period = $(this).attr("time"); inst_timewindow($(this).attr("time")); redraw();});
+
+	$("#graph").bind("plothover", function (event, pos, item) {
+	  if (item) {
+			  $("#tooltip").remove();
+        var val = 0;
+        if (item.seriesIndex == 0) val = parseFloat(series[0].data[item.dataIndex][1]); 
+        if (item.seriesIndex == 1) val = parseFloat(series[1].data[item.dataIndex][1]); 
+        if (item.seriesIndex == 2) val = parseFloat(series[2].data[item.dataIndex][1]); 
+
+			  showTooltip(item.pageX, item.pageY,item.series.label+": "+val.toFixed(1)+" kWh/d");
+	  } else {
+		  $("#tooltip").remove();
+		  previousPoint = null;            
+	  }
+	});
+
+  // Hover tooltip
+	function showTooltip(x, y, contents) {
+		$("<div id='tooltip'>" + contents + "</div>").css({
+			position: "absolute",
+			display: "none",
+			top: y + 5,
+			left: x + 5,
+			border: "1px solid #fff",
+			padding: "2px",
+			"background-color": "#fefefe",
+			opacity: 0.80
+		}).appendTo("body").fadeIn(100);
+	}
+
+  //--------------------------------------------------------------------------------------
+  // Pie chart functions
+  //--------------------------------------------------------------------------------------
+
+	function labelFormatter(label, thisseries) {
+		return "<div style='font-size:11pt; text-align:center; padding:2px; color:#444; width:150px'>" + label+": <b>"+Math.round(thisseries.percent) + "%</b><br/ >" + prependUnits+thisseries.data[0][1].toFixed(0) +appendUnits+" in "+daysinview+" days<br>"+prependUnits+(thisseries.data[0][1]/daysinview).toFixed(2) +appendUnits+"/day</div>";
+	}
+
+  //--------------------------------------------------------------------------------------
+  // Interface actions
+  //--------------------------------------------------------------------------------------
+
   $("#money").click(function () {
     prependUnits = "£"; 
     appendUnits = ""; 
     unitscale = settings.unitprice;
-    vis_feed_data();
+    redraw();
   });
 
   $("#energy").click(function () {
     prependUnits = ""; 
     appendUnits = " kWh"; 
     unitscale = 1;
-    vis_feed_data();
+    redraw();
   });
 
   $("#options-save").click(function() {
@@ -444,7 +440,24 @@
     report.setsettings(settings);
 
     init();
-    vis_feed_data();
+    redraw();
   });
+
+  /*
+  $("#graph").bind("plotclick", function (event, pos, item)
+  {
+    if (item!=null)
+    {
+      var start = 1*dataA[item.dataIndex][0];
+      var end = start + (3600000*24.0);
+      var power_data = feed.get_data(36,start,end,500);
+
+      $.plot($("#graph"), [{data: power_data, lines: { show: true, fill: true }}], {
+        grid: { show: true, hoverable: true, clickable: true },
+        xaxis: { mode: "time", localTimezone: true, min: start, max: end },
+        selection: { mode: "xy" }
+      });
+    }
+  });*/
 
 </script>
