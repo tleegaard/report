@@ -176,12 +176,14 @@
   $("#table").bind("onSave", function(e,id,fields_to_update){ 
     listid = applist.set(listid,listname,table.data);
     console.log("Listid: "+listid);
+    draw_pie(table.energyrange);
   });
 
   $("#table").bind("onDelete", function(e,id,row){
     table.remove(row);
     listid = applist.set(listid,listname,table.data);
     console.log("Listid: "+listid);
+    draw_pie(table.energyrange);
   });
 
   $("#addsave-button").click(function() {
