@@ -124,7 +124,7 @@
 
   var baseline = [
     {'category':"Lighting", 'name':"Light Incandecent", 'power':40, 'hours':6},
-    {'category':"Lighting", 'name':"Light Incandecent", 'power':11, 'hours':6},
+    {'category':"Lighting", 'name':"Light CFL", 'power':11, 'hours':6},
     {'category':"Lighting", 'name':"Light LED (Pharox)", 'power':6, 'hours':6},
 
     {'category':"Electronics", 'name':"Laptop", 'power':25,'hours':8},
