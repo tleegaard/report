@@ -227,18 +227,18 @@
 
   function draw_pie(range)
   {
-    var piedata = [
+    var applistpiedata = [
       {label: "Less than 1 kW", color: "#4da74d",data: range[0]},  
       {label: "1 kW to 3 kW", color: "#edc240",data: range[1]}, 
       {label: "More than 3 kW", color: "#cb4b4b",data: range[2]}
     ];
 
-		$.plot("#applistpie", piedata, {
+		$.plot("#applistpie", applistpiedata, {
 			series: {
 				pie: { 
 					show: true,
           radius: 2/3,
-				  label: { formatter: labelFormatter },
+				  label: { formatter: applistlabelFormatter },
           stroke: { width:3 }
 				}
 			},
@@ -250,10 +250,10 @@
 		});
   }
 
-	function labelFormatter(label, thisseries) {
-    var prependUnits = '';
-    var appendUnits = ' kWh';
-		return "<div style='font-size:11pt; text-align:center; padding:2px; color:#444; width:150px'>" + label+": <b>"+Math.round(thisseries.percent) + "%</b><br/ >" + prependUnits+(thisseries.data[0][1]/1000.0).toFixed(2) +appendUnits+"</div>";
+	function applistlabelFormatter(label, thisseries) {
+    var applist_prependUnits = '';
+    var applist_appendUnits = ' kWh';
+		return "<div style='font-size:11pt; text-align:center; padding:2px; color:#444; width:150px'>" + label+": <b>"+Math.round(thisseries.percent) + "%</b><br/ >" + applist_prependUnits+(thisseries.data[0][1]/1000.0).toFixed(2) +applist_appendUnits+"/d</div>";
 	}
 
 </script>
