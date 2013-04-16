@@ -461,3 +461,5 @@
   });*/
 
 </script>
+
+<?php require "applist.php"; ?>

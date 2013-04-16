@@ -1,9 +1,5 @@
 <?php global $path; ?>
 
-<!--[if IE]><script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/excanvas.min.js"></script><![endif]-->
-<script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.min.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.pie.min.js"></script>
-
 <script type="text/javascript" src="<?php echo $path; ?>Modules/report/table.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/report/applist.js"></script>
 
@@ -55,7 +51,8 @@
 
 
 <div class="container">
-    <h2><?php echo _('Appliance list'); ?></h2><br><br>
+    <h2><?php echo _('Appliance list'); ?></h2>
+    <p>Explore electricity consumption further by building a simple appliance list model of all the appliances that make up the monitored electricity consumption above. Try to match both pie charts so that the average total kWh/d from the monitored data and the model data match and the kWh/d consumed at different powers also match.</p>
 
     
 <!--
@@ -67,7 +64,7 @@
 
     <div class="row">
       <div class="span7"><div id="table"></div></div>
-      <div class="span5" style="background-color:#eee"><div id="pie" style="width:100%; height:400px;"></div></div>
+      <div class="span5" style="background-color:#eee"><div id="applistpie" style="width:100%; height:400px;"></div></div>
     </div>
 
     <div id="nofeeds" class="alert alert-block hide">
@@ -236,7 +233,7 @@
       {label: "More than 3 kW", color: "#cb4b4b",data: range[2]}
     ];
 
-		$.plot("#pie", piedata, {
+		$.plot("#applistpie", piedata, {
 			series: {
 				pie: { 
 					show: true,

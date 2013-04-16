@@ -28,7 +28,7 @@
     if ($route->format == 'html' && $session['write'])
     {
       if ($route->action == 'electric') $result = view("Modules/report/electric.php", array());
-      if ($route->action == 'applist') $result = view("Modules/report/applist.php", array());
+      //if ($route->action == 'applist') $result = view("Modules/report/applist.php", array());
     }
 
     if ($route->format == 'json' && $session['write'])
