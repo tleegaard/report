@@ -86,7 +86,7 @@ var table = {
         }
 
         // Hack to display total
-        html += "<tr class='trtotal'><td></td><td></td><td>Total:</td><td>"+table.total_watthours+" Wh</td><td></td></tr>";
+        html += "<tr class='trtotal'><td></td><td></td><td><?php echo _('Total:'); ?></td><td>"+table.total_watthours+" Wh</td><td></td></tr>";
 
         $(table.element).html("<table class='table'>"+html+"</table>");
 

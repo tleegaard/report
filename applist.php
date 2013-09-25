@@ -52,13 +52,13 @@
 
 <div class="container">
     <h2><?php echo _('Appliance list'); ?></h2>
-    <p>Explore electricity consumption further by building a simple appliance list model of all the appliances that make up the monitored electricity consumption above. Try to match both pie charts so that the average total kWh/d from the monitored data and the model data match and the kWh/d consumed at different powers also match.</p>
+    <p><?php echo _('Explore electricity consumption further by building a simple appliance list model of all the appliances that make up the monitored electricity consumption above. Try to match both pie charts so that the average total kWh/d from the monitored data and the model data match and the kWh/d consumed at different powers also match.'); ?></p>
 
     
 <!--
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#" id="baseline">Baseline</a></li>
-      <li><a href="#" id="target">Target</a></li>
+      <li class="active"><a href="#" id="baseline"><?php echo _('Baseline'); ?></a></li>
+      <li><a href="#" id="target"><?php echo _('Target'); ?></a></li>
     </ul>
 -->
 
@@ -68,37 +68,37 @@
     </div>
 
     <div id="nofeeds" class="alert alert-block hide">
-        <h4 class="alert-heading">No feeds created</h4>
-        <p>Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage.</p>
+        <h4 class="alert-heading"><?php echo _('No feeds created'); ?></h4>
+        <p><?php echo _('Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage.'); ?></p>
     </div>
 
-    <button id="addItemButton" class="btn btn-primary" style="margin-top:-70px; margin-left:8px;">Add new item</button>
+    <button id="addItemButton" class="btn btn-primary" style="margin-top:-70px; margin-left:8px;"><?php echo _('Add new item'); ?></button>
 </div>
 
 <div id="AppListModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="AppListModalLabel" aria-hidden="true" data-backdrop="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="AppListModalLabel">Add item</h3>
+    <h3 id="AppListModalLabel"><?php echo _('Add item'); ?></h3>
   </div>
   <div id="AppListModalBody" class="modal-body">
 
-  <p>Describe the item you would like to add below, if you dont know the power consumption and estimated hours that its on for but know the watt hours consumed in a day instead use the watt hours box</p>
+  <p><?php echo _('Describe the item you would like to add below, if you dont know the power consumption and estimated hours that its on for but know the watt hours consumed in a day instead use the watt hours box'); ?></p>
 
-  <p><b>Category:</b><br>
+  <p><b><?php echo _('Category:'); ?></b><br>
   <input type='text' id='itemcategory' style="width:200px"  /></p>
-  <p><b>Descriptive name: (unique within category)</b><br>
+  <p><b><?php echo _('Descriptive name: (unique within category)'); ?></b><br>
   <input type='text' id='itemname' style="width:200px" /></p>
-  <p><b>Power (Watts):</b><br>
+  <p><b><?php echo _('Power (Watts):'); ?></b><br>
   <input type='text' id='itempower' style="width:200px" /></p>
-  <p><b>Hours (0-24):</b><br>
+  <p><b><?php echo _('Hours (0-24):'); ?></b><br>
   <input type='text' id='itemhours' style="width:200px" /></p>
-  <p><b>Watt-hours:</b><br>
+  <p><b><?php echo _('Watt-hours:'); ?></b><br>
   <input type='text' id='itemwatthours' style="width:200px" /></p>
 
   </div>
   <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-    <button id="addsave-button" class="btn btn-primary">Add</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
+    <button id="addsave-button" class="btn btn-primary"><?php echo _('Add'); ?></button>
   </div>
 </div>
 
@@ -123,15 +123,15 @@
   table.deletedata = false;
 
   var baseline = [
-    {'category':"Lighting", 'name':"Light Incandecent", 'power':40, 'hours':6},
-    {'category':"Lighting", 'name':"Light CFL", 'power':11, 'hours':6},
-    {'category':"Lighting", 'name':"Light LED (Pharox)", 'power':6, 'hours':6},
+    {'category':"<?php echo _('Lighting'); ?>", 'name':"<?php echo _('Light Incandecent'); ?>", 'power':40, 'hours':6},
+    {'category':"<?php echo _('Lighting'); ?>", 'name':"<?php echo _('Light CFL'); ?>", 'power':11, 'hours':6},
+    {'category':"<?php echo _('Lighting'); ?>", 'name':"<?php echo _('Light LED (Pharox)'); ?>", 'power':6, 'hours':6},
 
-    {'category':"Electronics", 'name':"Laptop", 'power':25,'hours':8},
-    {'category':"Electronics", 'name':"Phone charger", 'power':4.3,'hours':6},
+    {'category':"<?php echo _('Electronics'); ?>", 'name':"<?php echo _('Laptop'); ?>", 'power':25,'hours':8},
+    {'category':"<?php echo _('Electronics'); ?>", 'name':"<?php echo _('Phone charger'); ?>", 'power':4.3,'hours':6},
 
-    {'category':"Appliances", 'name':"Immersion heater", 'power':3200,'hours':1.0},
-    {'category':"Appliances", 'name':"Kettle", 'power':2600,'hours':0.4}
+    {'category':"<?php echo _('Appliances'); ?>", 'name':"<?php echo _('Immersion heater'); ?>", 'power':3200,'hours':1.0},
+    {'category':"<?php echo _('Appliances'); ?>", 'name':"<?php echo _('Kettle'); ?>", 'power':2600,'hours':0.4}
 
   ];
 
@@ -230,9 +230,9 @@
   function draw_pie(range)
   {
     var applistpiedata = [
-      {label: "Less than 1 kW", color: "#4da74d",data: range[0]},  
-      {label: "1 kW to 3 kW", color: "#edc240",data: range[1]}, 
-      {label: "More than 3 kW", color: "#cb4b4b",data: range[2]}
+      {label: "<?php echo _('Less than 1 kW'); ?>", color: "#4da74d",data: range[0]},  
+      {label: "<?php echo _('1 kW to 3 kW'); ?>", color: "#edc240",data: range[1]}, 
+      {label: "<?php echo _('More than 3 kW'); ?>", color: "#cb4b4b",data: range[2]}
     ];
 
 		$.plot("#applistpie", applistpiedata, {

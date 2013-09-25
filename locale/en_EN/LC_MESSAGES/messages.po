@@ -1,0 +1,263 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: emoncmsreport\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-25 21:00+0100\n"
+"PO-Revision-Date: 2013-09-25 21:00+0100\n"
+"Last-Translator: Troels Leegaard <tleegaard@gmail.com>\n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: ../../..\n"
+
+#: ../../../applist.php:54
+msgid "Appliance list"
+msgstr ""
+
+#: ../../../applist.php:55
+msgid "Explore electricity consumption further by building a simple appliance list model of all the appliances that make up the monitored electricity consumption above. Try to match both pie charts so that the average total kWh/d from the monitored data and the model data match and the kWh/d consumed at different powers also match."
+msgstr ""
+
+#: ../../../applist.php:60
+msgid "Baseline"
+msgstr ""
+
+#: ../../../applist.php:61
+msgid "Target"
+msgstr ""
+
+#: ../../../applist.php:71
+msgid "No feeds created"
+msgstr ""
+
+#: ../../../applist.php:72
+msgid "Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage."
+msgstr ""
+
+#: ../../../applist.php:75
+msgid "Add new item"
+msgstr ""
+
+#: ../../../applist.php:81
+msgid "Add item"
+msgstr ""
+
+#: ../../../applist.php:85
+msgid "Describe the item you would like to add below, if you dont know the power consumption and estimated hours that its on for but know the watt hours consumed in a day instead use the watt hours box"
+msgstr ""
+
+#: ../../../applist.php:87
+msgid "Category:"
+msgstr ""
+
+#: ../../../applist.php:89
+msgid "Descriptive name: (unique within category)"
+msgstr ""
+
+#: ../../../applist.php:91
+msgid "Power (Watts):"
+msgstr ""
+
+#: ../../../applist.php:93
+msgid "Hours (0-24):"
+msgstr ""
+
+#: ../../../applist.php:95
+msgid "Watt-hours:"
+msgstr ""
+
+#: ../../../applist.php:100
+#: ../../../electric.php:147
+msgid "Cancel"
+msgstr ""
+
+#: ../../../applist.php:101
+msgid "Add"
+msgstr ""
+
+#: ../../../applist.php:113
+msgid "Power"
+msgstr ""
+
+#: ../../../applist.php:114
+msgid "Hours"
+msgstr ""
+
+#: ../../../applist.php:115
+msgid "Watt-hours"
+msgstr ""
+
+#: ../../../applist.php:126
+#: ../../../applist.php:127
+#: ../../../applist.php:128
+msgid "Lighting"
+msgstr ""
+
+#: ../../../applist.php:126
+msgid "Light Incandecent"
+msgstr ""
+
+#: ../../../applist.php:127
+msgid "Light CFL"
+msgstr ""
+
+#: ../../../applist.php:128
+msgid "Light LED (Pharox)"
+msgstr ""
+
+#: ../../../applist.php:130
+#: ../../../applist.php:131
+msgid "Electronics"
+msgstr ""
+
+#: ../../../applist.php:130
+msgid "Laptop"
+msgstr ""
+
+#: ../../../applist.php:131
+msgid "Phone charger"
+msgstr ""
+
+#: ../../../applist.php:133
+#: ../../../applist.php:134
+msgid "Appliances"
+msgstr ""
+
+#: ../../../applist.php:133
+msgid "Immersion heater"
+msgstr ""
+
+#: ../../../applist.php:134
+msgid "Kettle"
+msgstr ""
+
+#: ../../../applist.php:233
+#: ../../../electric.php:205
+msgid "Less than 1 kW"
+msgstr ""
+
+#: ../../../applist.php:234
+#: ../../../electric.php:206
+msgid "1 kW to 3 kW"
+msgstr ""
+
+#: ../../../applist.php:235
+#: ../../../electric.php:207
+msgid "More than 3 kW"
+msgstr ""
+
+#: ../../../electric.php:32
+msgid "Configure"
+msgstr ""
+
+#: ../../../electric.php:36
+#: ../../../electric.php:103
+msgid "Year"
+msgstr ""
+
+#: ../../../electric.php:37
+#: ../../../electric.php:104
+msgid "Month"
+msgstr ""
+
+#: ../../../electric.php:38
+msgid "2 Weeks"
+msgstr ""
+
+#: ../../../electric.php:39
+#: ../../../electric.php:106
+msgid "Week"
+msgstr ""
+
+#: ../../../electric.php:43
+msgid "GBP"
+msgstr ""
+
+#: ../../../electric.php:44
+msgid "kWh"
+msgstr ""
+
+#: ../../../electric.php:47
+msgid "My Electric"
+msgstr ""
+
+#: ../../../electric.php:91
+msgid "Configure report"
+msgstr ""
+
+#: ../../../electric.php:97
+msgid "Select histogram feed:"
+msgstr ""
+
+#: ../../../electric.php:101
+msgid "Default period:"
+msgstr ""
+
+#: ../../../electric.php:105
+msgid "14 days"
+msgstr ""
+
+#: ../../../electric.php:113
+msgid "Select first power range: 0W to "
+msgstr ""
+
+#: ../../../electric.php:116
+msgid "Select end of mid power range:"
+msgstr ""
+
+#: ../../../electric.php:123
+msgid "Default mode:"
+msgstr ""
+
+#: ../../../electric.php:125
+msgid "Energy (kWh)"
+msgstr ""
+
+#: ../../../electric.php:126
+msgid "Money (GBP)"
+msgstr ""
+
+#: ../../../electric.php:134
+msgid "Unit price:"
+msgstr ""
+
+#: ../../../electric.php:137
+msgid "Fixed rate:"
+msgstr ""
+
+#: ../../../electric.php:148
+msgid "Save changes"
+msgstr ""
+
+#: ../../../electric.php:328
+msgid "Last"
+msgstr ""
+
+#: ../../../electric.php:328
+#: ../../../electric.php:332
+msgid "days:"
+msgstr ""
+
+#: ../../../electric.php:328
+#: ../../../electric.php:332
+#: ../../../electric.php:406
+msgid "/day"
+msgstr ""
+
+#: ../../../electric.php:332
+msgid "Previous"
+msgstr ""
+
+#: ../../../electric.php:406
+msgid "in"
+msgstr ""
+
+#: ../../../electric.php:406
+msgid "days"
+msgstr ""
+

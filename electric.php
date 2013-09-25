@@ -33,18 +33,18 @@
   </div>
 
   <div class="btn-group" style="float:right; margin-right:10px;">
-    <button class="btn time" time="365" >Year</button>
-    <button class="btn time" time="30" ">Month</button>
-    <button class="btn time" time="14" ">2 Weeks</button>
-    <button class="btn time" time="7" ">Week</button>
+    <button class="btn time" time="365" ><?php echo _('Year'); ?></button>
+    <button class="btn time" time="30" "><?php echo _('Month'); ?></button>
+    <button class="btn time" time="14" "><?php echo _('2 Weeks'); ?></button>
+    <button class="btn time" time="7" "><?php echo _('Week'); ?></button>
   </div>
 
   <div class="btn-group" style="float:right; margin-right:10px;">
-    <button id="money" class="btn">£</button>
-    <button id="energy" class="btn">kWh</button>
+    <button id="money" class="btn"><?php echo _('GBP'); ?></button>
+    <button id="energy" class="btn"><?php echo _('kWh'); ?></button>
   </div>
 
-  <h1>My Electric</h1>
+  <h1><?php echo _('My Electric'); ?></h1>
   <br>
   <div>
     <div style="float:left;">
@@ -94,36 +94,36 @@
   <table>
   <tr>
     <td style="width:250px">
-      <p><b>Select histogram feed:</b><br>
+      <p><b><?php echo _('Select histogram feed:'); ?></b><br>
       <select id='modal-histogram-feed'></select></p>
     </td>
     <td>
-      <p><b>Default period:</b><br>
+      <p><b><?php echo _('Default period:'); ?></b><br>
       <select id='modal-default-period' >
-        <option value="365" >Year</option>
-        <option value="30" >Month</option>
-        <option value="14" >14 days</option>
-        <option value="1" >Week</option>
+        <option value="365" ><?php echo _('Year'); ?></option>
+        <option value="30" ><?php echo _('Month'); ?></option>
+        <option value="14" ><?php echo _('14 days'); ?></option>
+        <option value="1" ><?php echo _('Week'); ?></option>
        </select>
     </td>
   </tr>
 
   <tr>
     <td>
-      <p><b>Select first power range: 0W to </b><br>
+      <p><b><?php echo _('Select first power range: 0W to '); ?></b><br>
       <input type='text' id='modal-thresholdA' style="width:200px"  /></p>
     </td><td>
-      <p><b>Select end of mid power range:</b><br>
+      <p><b><?php echo _('Select end of mid power range:'); ?></b><br>
       <input type='text' id='modal-thresholdB' style="width:200px"  /></p>
     </td>
   </tr>
 
   <tr>
     <td>
-      <p><b>Default mode:</b><br>
+      <p><b><?php echo _('Default mode:'); ?></b><br>
       <select id='modal-default-mode' >
-        <option value="energy" >Energy (kWh)</option>
-        <option value="money" >Money (£)</option>
+        <option value="energy" ><?php echo _('Energy (kWh)'); ?></option>
+        <option value="money" ><?php echo _('Money (GBP)'); ?></option>
        </select>
     </td>
     <td></td>
@@ -131,10 +131,10 @@
 
   <tr>
     <td>
-      <p><b>Unit price:</b><br>
+      <p><b><?php echo _('Unit price:'); ?></b><br>
       <input type='text' id='modal-unitprice' style="width:200px" /></p>
     </td><td>
-      <p><b>Fixed rate:</b><br>
+      <p><b><?php echo _('Fixed rate:'); ?></b><br>
       <input type='text' id='modal-fixedrate' style="width:200px" /></p>
     </td>
     <td></td>
@@ -202,9 +202,9 @@
 
   var numberOfSeries = 3;
   var labelcolor = [
-    {label: "Less than 1 kW", color: "#4da74d"},  
-    {label: "1 kW to 3 kW", color: "#edc240"}, 
-    {label: "More than 3 kW", color: "#cb4b4b"}
+    {label: "<?php echo _('Less than 1 kW'); ?>", color: "#4da74d"},  
+    {label: "<?php echo _('1 kW to 3 kW'); ?>", color: "#edc240"}, 
+    {label: "<?php echo _('More than 3 kW'); ?>", color: "#cb4b4b"}
   ];
 
   // Create histogram and piedata from labelcolor descriptor
@@ -325,11 +325,11 @@
     var a = now-(3600000*24.0*period);
     var b = now;
     var last = useInRange(a, b);
-    $("#last").html("Last "+period+" days: "+prependUnits+(last).toFixed(0)+appendUnits+" | "+prependUnits+(last/daysinview).toFixed(2)+appendUnits+"/day");
+    $("#last").html("<?php echo _('Last'); ?> "+period+" <?php echo _('days:'); ?> "+prependUnits+(last).toFixed(0)+appendUnits+" | "+prependUnits+(last/daysinview).toFixed(2)+appendUnits+"<?php echo _('/day'); ?>");
     b = a;
     var a = now-(3600000*24.0*period*2);
     var previous = useInRange(a, b);
-    $("#previous").html("Previous "+period+" days: "+prependUnits+(previous).toFixed(0)+appendUnits+" | "+prependUnits+(previous/daysinview).toFixed(2)+appendUnits+"/day");
+    $("#previous").html("<?php echo _('Previous'); ?> "+period+" <?php echo _('days:'); ?> "+prependUnits+(previous).toFixed(0)+appendUnits+" | "+prependUnits+(previous/daysinview).toFixed(2)+appendUnits+"<?php echo _('/day'); ?>");
 
     var prc = ((last / previous)*100)-100;
     $("#prc-change").html(prc.toFixed(0)+"%");
@@ -403,7 +403,7 @@
   //--------------------------------------------------------------------------------------
 
 	function labelFormatter(label, thisseries) {
-		return "<div style='font-size:11pt; text-align:center; padding:2px; color:#444; width:150px'>" + label+": <b>"+Math.round(thisseries.percent) + "%</b><br/ >" + prependUnits+thisseries.data[0][1].toFixed(0) +appendUnits+" in "+daysinview+" days<br>"+prependUnits+(thisseries.data[0][1]/daysinview).toFixed(2) +appendUnits+"/day</div>";
+		return "<div style='font-size:11pt; text-align:center; padding:2px; color:#444; width:150px'>" + label+": <b>"+Math.round(thisseries.percent) + "%</b><br/ >" + prependUnits+thisseries.data[0][1].toFixed(0) +appendUnits+" <?php echo _('in'); ?> "+daysinview+" <?php echo _('days'); ?><br>"+prependUnits+(thisseries.data[0][1]/daysinview).toFixed(2) +appendUnits+"<?php echo _('/day'); ?></div>";
 	}
 
   //--------------------------------------------------------------------------------------
